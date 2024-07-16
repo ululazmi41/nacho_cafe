@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Kopi",
+    "price": 5000,
+    "filename": "kopi.png"
+  },
+  {
+    "name": "Jus Jagung",
+    "price": 12000,
+    "filename": "jus-jagung.png"
+  },
+  {
+    "name": "ShuShu",
+    "price": 40000,
+    "filename": "shushu.png"
+  },
+  {
+    "name": "Chica San Chen",
+    "price": 14000,
+    "filename": "chicha-san-chen.png"
+  },
+  {
+    "name": "Kopi Latte",
+    "price": 22000,
+    "filename": "latte.png"
+  },
+  {
+    "name": "Teh Tarik",
+    "price": 12000,
+    "filename": "teh-tarik.png"
+  },
+  {
+    "name": "Boba",
+    "price": 35000,
+    "filename": "boba.png"
+  },
+  {
+    "name": "Jus Coklat",
+    "price": 24000,
+    "filename": "jus-coklat.png"
+  },
+  {
+    "name": "Mocha",
+    "price": 46000,
+    "filename": "mocha.png"
+  },
+  {
+    "name": "Macchiato",
+    "price": 32000,
+    "filename": "macchiato.png"
+  },
+  {
+    "name": "Strawberry",
+    "price": 22000,
+    "filename": "strawberry.png"
+  },
+  {
+    "name": "Mojito Cocktail",
+    "price": 64000,
+    "filename": "mojito-cocktail.png"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Mie Goreng",
+    "price": 13000,
+    "filename": "mie-goreng.png"
+  },
+  {
+    "name": "Pecel Lele",
+    "price": 19000,
+    "filename": "pecel-lele.png"
+  },
+  {
+    "name": "Bakso",
+    "price": 21000,
+    "filename": "bakso.png"
+  },
+  {
+    "name": "Soto",
+    "price": 24000,
+    "filename": "soto.png"
+  },
+  {
+    "name": "Nasi Goreng",
+    "price": 13000,
+    "filename": "nasi-goreng.png"
+  },
+  {
+    "name": "Sate Ayam",
+    "price": 17000,
+    "filename": "sate-ayam.png"
+  },
+  {
+    "name": "Mie Sagu",
+    "price": 19000,
+    "filename": "mie-sagu.png"
+  },
+  {
+    "name": "Laksa",
+    "price": 29000,
+    "filename": "laksa.png"
+  },
+  {
+    "name": "Mie Tiaw",
+    "price": 15000,
+    "filename": "mie-tiaw.png"
+  },
+  {
+    "name": "Chwee Kueh",
+    "price": 21000,
+    "filename": "chwee-kueh.png"
+  },
+  {
+    "name": "Mie Tarempa",
+    "price": 31000,
+    "filename": "mie-tarempa.png"
+  },
+  {
+    "name": "Bubur Ayam",
+    "price": 17000,
+    "filename": "bubur-ayam.png"
+  }
+]
