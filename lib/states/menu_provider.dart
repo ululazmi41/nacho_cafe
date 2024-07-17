@@ -17,7 +17,6 @@ enum MenuState {
 
 enum SearchState {
   idle,
-  loading,
   hasItem,
   noItem,
 }
@@ -164,9 +163,6 @@ class MenuProvider extends ChangeNotifier {
   }
 
   void search(String query) {
-    _searchState = SearchState.loading;
-    notifyListeners();
-
     if (query == "") {
       _searchState = SearchState.idle;
       _searchMenus = _allMenus;
@@ -176,7 +172,7 @@ class MenuProvider extends ChangeNotifier {
 
     List<Menu> result = [];
     for (Menu menu in _allMenus) {
-      final bool isIncludeName = menu.name.contains(query);
+      final bool isIncludeName = menu.name.toLowerCase().contains(query);
       final bool isIncludePrice = menu.price.toString().contains(query);
       if (isIncludeName || isIncludePrice) {
         result.add(menu);
