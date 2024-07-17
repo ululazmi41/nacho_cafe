@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nacho_cafe/states/food_provider.dart';
+import 'package:nacho_cafe/states/menu_provider.dart';
 import 'package:nacho_cafe/utils/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +7,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => FoodProvider()),
+        ChangeNotifierProvider(create: (context) => MenuProvider()),
       ],
       child: const MyApp(),
     ),

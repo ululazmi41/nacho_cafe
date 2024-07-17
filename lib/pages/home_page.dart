@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nacho_cafe/states/food_provider.dart';
+import 'package:nacho_cafe/states/menu_provider.dart';
 import 'package:provider/provider.dart';
 
 String formatToRupiah(int price) {
@@ -72,168 +72,215 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    //
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+          vertical: 8.0,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Provider.of<MenuProvider>(context, listen: false)
+                          .changeMenuType(MenuType.food);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      backgroundColor: Colors.red,
                     ),
-                    backgroundColor: Colors.red,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        "images/ic_food.svg",
-                        width: 24.0,
-                        height: 24.0,
-                        colorFilter: const ColorFilter.mode(
-                          Colors.white,
-                          BlendMode.srcIn,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          "images/ic_food.svg",
+                          width: 24.0,
+                          height: 24.0,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12.0),
-                      const Text(
-                        "Makanan",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
+                        const SizedBox(width: 12.0),
+                        const Text(
+                          "Makanan",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 12.0),
-                OutlinedButton(
-                  onPressed: () {
-                    //
-                  },
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        "images/ic_drink.svg",
-                        width: 24.0,
-                        height: 24.0,
-                        colorFilter: const ColorFilter.mode(
-                          Colors.grey,
-                          BlendMode.srcIn,
-                        ),
+                  const SizedBox(width: 12.0),
+                  OutlinedButton(
+                    onPressed: () {
+                      Provider.of<MenuProvider>(context, listen: false)
+                          .changeMenuType(MenuType.drink);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-                      const SizedBox(width: 12.0),
-                      const Text(
-                        "Makanan",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16.0,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          "images/ic_drink.svg",
+                          width: 24.0,
+                          height: 24.0,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.grey,
+                            BlendMode.srcIn,
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 12.0),
+                        const Text(
+                          "Makanan",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Rekomendasi',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                ),
+                ],
               ),
-            ),
-            const SizedBox(height: 8.0),
-            Consumer<FoodProvider>(
-              builder: (context, value, child) {
-                if (value.state == FoodState.idle) {
-                  return const Text("Loading...");
-                } else if (value.state == FoodState.loaded) {
-                  List<Food> foods = value.getRandomFood(5);
-                  return SizedBox(
-                    height: MediaQuery.sizeOf(context).width / 3,
-                    child: Expanded(
-                      child: ListView.separated(
-                        itemCount: 5,
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(width: 12.0);
-                        },
-                        itemBuilder: (context, index) {
-                          return Item(
-                            width: MediaQuery.sizeOf(context).width / 3,
-                            height: MediaQuery.sizeOf(context).width / 3,
-                            name: foods[index].name,
-                            nameFontSize: 12.0,
-                            price: foods[index].price,
-                            priceFontSize: 10.0,
-                            imageUrl: "images/${foods[index].filename}",
-                          );
-                        },
+              Column(
+                children: [
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Rekomendasi',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  );
-                } else {
-                  return const Text("Unreachable code");
-                }
-              },
-            ),
-            const SizedBox(height: 8.0),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Rekomendasi',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Consumer<FoodProvider>(
-              builder: (context, value, child) {
-                if (value.state == FoodState.idle) {
-                  return const Text("Loading...");
-                } else if (value.state == FoodState.loaded) {
-                  return Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12.0,
-                      mainAxisSpacing: 12.0,
-                      children: List.generate(value.foods.length, (int index) {
-                        return Item(
-                          width: double.infinity,
-                          height: double.infinity,
-                          name: value.foods[index].name,
-                          nameFontSize: 16.0,
-                          price: value.foods[index].price,
-                          priceFontSize: 14.0,
-                          imageUrl: "images/${value.foods[index].filename}",
+                  ),
+                  const SizedBox(height: 8.0),
+                  Consumer<MenuProvider>(
+                    builder: (context, value, child) {
+                      if (value.state == MenuState.idle) {
+                        return SizedBox(
+                          height: MediaQuery.sizeOf(context).width / 3,
+                          child: Expanded(
+                            child: ListView.separated(
+                              itemCount: 5,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(width: 12.0);
+                              },
+                              itemBuilder: (context, index) {
+                                return _ItemPlaceholder(
+                                  width: MediaQuery.sizeOf(context).width / 3,
+                                  height: MediaQuery.sizeOf(context).width / 3,
+                                );
+                              },
+                            ),
+                          ),
                         );
-                      }),
+                      } else if (value.state == MenuState.loaded) {
+                        List<Menu> foods = value.getRandomMenu(5);
+                        return SizedBox(
+                          height: MediaQuery.sizeOf(context).width / 3,
+                          child: Expanded(
+                            child: ListView.separated(
+                              itemCount: 5,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(width: 12.0);
+                              },
+                              itemBuilder: (context, index) {
+                                return Item(
+                                  width: MediaQuery.sizeOf(context).width / 3,
+                                  height: MediaQuery.sizeOf(context).width / 3,
+                                  name: foods[index].name,
+                                  nameFontSize: 12.0,
+                                  price: foods[index].price,
+                                  priceFontSize: 10.0,
+                                  imageUrl: "images/${foods[index].filename}",
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const Text("Unreachable code");
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 8.0),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Rekomendasi',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                } else {
-                  return const Text("Unreachable code");
-                }
-              },
-            ),
-          ],
+                  ),
+                  Consumer<MenuProvider>(
+                    builder: (context, value, child) {
+                      if (value.state == MenuState.idle) {
+                        return GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12.0,
+                          mainAxisSpacing: 12.0,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: List.generate(
+                            12,
+                            (int index) {
+                              return const _ItemPlaceholder(
+                                width: double.infinity,
+                                height: double.infinity,
+                              );
+                            },
+                          ),
+                        );
+                      } else if (value.state == MenuState.loaded) {
+                        return GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12.0,
+                          mainAxisSpacing: 12.0,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: List.generate(
+                            value.menus.length,
+                            (int index) {
+                              return Item(
+                                width: double.infinity,
+                                height: double.infinity,
+                                name: value.menus[index].name,
+                                nameFontSize: 16.0,
+                                price: value.menus[index].price,
+                                priceFontSize: 14.0,
+                                imageUrl:
+                                    "images/${value.menus[index].filename}",
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        return const Text("Unreachable code");
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -395,8 +442,9 @@ class _ItemState extends State<Item> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16.0),
-                _ItemCount(
+                const SizedBox(height: 8.0),
+                DialogContent(
+                  price: price,
                   parentIncrease: increaseItemCount,
                   parentDecrease: decreaseItemCount,
                 ),
@@ -404,12 +452,36 @@ class _ItemState extends State<Item> {
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
+            OutlinedButton(
               onPressed: () {
-                // resetItemCount();
                 Navigator.of(context).pop();
               },
+              style: OutlinedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: Text(
+                'Kembali',
+                style: TextStyle(color: Colors.grey[800]),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: const Text(
+                'Tambah',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         );
@@ -420,20 +492,76 @@ class _ItemState extends State<Item> {
   }
 }
 
-class _ItemCount extends StatefulWidget {
-  const _ItemCount({
-    required this.parentIncrease,
-    required this.parentDecrease,
+class _ItemPlaceholder extends StatefulWidget {
+  const _ItemPlaceholder({
+    required this.width,
+    required this.height,
   });
 
+  final double width;
+  final double height;
+
+  @override
+  State<_ItemPlaceholder> createState() => _ItemPlaceholderState();
+}
+
+class _ItemPlaceholderState extends State<_ItemPlaceholder>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Color?> _colorTween;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
+    _controller.repeat(reverse: true);
+    _colorTween =
+        ColorTween(begin: Colors.grey, end: Colors.white).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _colorTween,
+      builder: (context, _) {
+        return Container(
+          width: widget.width,
+          height: widget.height,
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            color: _colorTween.value,
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DialogContent extends StatefulWidget {
+  const DialogContent({
+    super.key,
+    required this.price,
+    required this.parentDecrease,
+    required this.parentIncrease,
+  });
+
+  final int price;
   final Function parentIncrease;
   final Function parentDecrease;
 
   @override
-  State<_ItemCount> createState() => _ItemCountState();
+  State<DialogContent> createState() => _DialogContentState();
 }
 
-class _ItemCountState extends State<_ItemCount> {
+class _DialogContentState extends State<DialogContent> {
   int _itemCount = 1;
 
   void increaseItemCount() {
@@ -452,62 +580,90 @@ class _ItemCountState extends State<_ItemCount> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        InkWell(
-          onTap: () {
-            decreaseItemCount();
-            widget.parentDecrease();
-          },
-          child: Row(
-            children: [
-              Container(
-                width: 32.0,
-                height: 32.0,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: SvgPicture.asset(
-                  "images/ic_left.svg",
-                  width: 24.0,
-                  height: 24.0,
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Total",
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 12.0),
-        Text(
-          "$_itemCount",
-          style: const TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-        const SizedBox(width: 12.0),
-        InkWell(
-          onTap: () {
-            increaseItemCount();
-            widget.parentIncrease();
-          },
-          child: Row(
-            children: [
-              Container(
-                width: 32.0,
-                height: 32.0,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: SvgPicture.asset(
-                  "images/ic_right.svg",
-                  width: 24.0,
-                  height: 24.0,
-                ),
+            ),
+            Text(
+              formatToRupiah(widget.price * _itemCount),
+              style: const TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                decreaseItemCount();
+                widget.parentDecrease();
+              },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Row(
+                children: [
+                  Container(
+                    width: 32.0,
+                    height: 32.0,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: SvgPicture.asset(
+                      "images/ic_left.svg",
+                      width: 24.0,
+                      height: 24.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12.0),
+            Text(
+              "$_itemCount",
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
+            ),
+            const SizedBox(width: 12.0),
+            InkWell(
+              onTap: () {
+                increaseItemCount();
+                widget.parentIncrease();
+              },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Row(
+                children: [
+                  Container(
+                    width: 32.0,
+                    height: 32.0,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: SvgPicture.asset(
+                      "images/ic_right.svg",
+                      width: 24.0,
+                      height: 24.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ],
     );
