@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nacho_cafe/pages/front_page.dart';
 import 'package:nacho_cafe/pages/home_page.dart';
+import 'package:nacho_cafe/pages/search_page.dart';
 import 'package:nacho_cafe/pages/splash_screen.dart';
 
 Route animatedPageBuilder(Widget page) {
@@ -28,16 +29,20 @@ Route animatedPageBuilder(Widget page) {
 const splashScreenRoute = "splashScreen";
 const frontPageRoute = "front";
 const homePageRoute = "home";
+const searchPageRoute = "search";
 
 Route routes(RouteSettings settings) {
-  switch(settings.name) {
+  switch (settings.name) {
     case splashScreenRoute:
       return animatedPageBuilder(const SplashScreen());
     case frontPageRoute:
       return animatedPageBuilder(const FrontPage());
     case homePageRoute:
       return animatedPageBuilder(const HomePage());
+    case searchPageRoute:
+      return animatedPageBuilder(const SearchPage());
     default:
-      return animatedPageBuilder(const Placeholder(child: Center(child: Text("Unimplemented"))));
+      return animatedPageBuilder(
+          const Placeholder(child: Center(child: Text("Unimplemented"))));
   }
 }

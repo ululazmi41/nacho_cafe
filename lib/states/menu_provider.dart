@@ -15,27 +15,81 @@ enum MenuState {
   loaded,
 }
 
+enum SearchState {
+  idle,
+  loading,
+  hasItem,
+  noItem,
+}
+
 enum MenuType {
   food,
   drink,
 }
 
 class MenuProvider extends ChangeNotifier {
-  late MenuState _state;
+  MenuState _state = MenuState.idle;
   get state => _state;
 
-  late List<Menu> _menus;
+  SearchState _searchState = SearchState.idle;
+  get searchState => _searchState;
+
+  List<Menu> _searchMenus = [];
+  get searchMenus => _searchMenus;
+
+  List<Menu> _menus = [];
   List<Menu> get menus => _menus;
+
+  List<Menu> _allMenus = [];
 
   late MenuType _selectedMenuType;
   MenuType get menuType => _selectedMenuType;
 
   MenuProvider() {
-    _state = MenuState.idle;
-    _menus = [];
-
     _selectedMenuType = MenuType.food;
+    initAllMenus();
     reloadMenuJson();
+  }
+
+  void initAllMenus() async {
+    const String foodUrl = "assets/foods.json";
+    const String drinkUrl = "assets/drinks.json";
+
+    String foodJson = await rootBundle.loadString(foodUrl);
+    String drinkJson = await rootBundle.loadString(drinkUrl);
+
+    List<dynamic> decodedFood = jsonDecode(foodJson);
+    List<dynamic> decodedDrink = jsonDecode(drinkJson);
+
+    List<Menu> result = [];
+    void load(List<dynamic> decoded) {
+      for (var item in decoded) {
+        if (item
+            case {
+              "name": String name,
+              "price": int price,
+              "filename": String filename,
+            }) {
+          Menu menu = Menu(
+            name: name,
+            price: price,
+            filename: filename,
+          );
+          result.add(menu);
+        } else {
+          throw "unhandled json: $item";
+        }
+      }
+    }
+
+    load(decodedFood);
+    load(decodedDrink);
+
+    result.sort((a, b) {
+      return a.name.compareTo(b.name);
+    });
+
+    _allMenus = result;
   }
 
   void changeMenuType(MenuType menuType) {
@@ -107,5 +161,34 @@ class MenuProvider extends ChangeNotifier {
       picked.add(_menus[index]);
     }
     return picked;
+  }
+
+  void search(String query) {
+    _searchState = SearchState.loading;
+    notifyListeners();
+
+    if (query == "") {
+      _searchState = SearchState.idle;
+      _searchMenus = _allMenus;
+      notifyListeners();
+      return;
+    }
+
+    List<Menu> result = [];
+    for (Menu menu in _allMenus) {
+      final bool isIncludeName = menu.name.contains(query);
+      final bool isIncludePrice = menu.price.toString().contains(query);
+      if (isIncludeName || isIncludePrice) {
+        result.add(menu);
+      }
+    }
+
+    if (result.isNotEmpty) {
+      _searchState = SearchState.hasItem;
+    } else {
+      _searchState = SearchState.noItem;
+    }
+    _searchMenus = result;
+    notifyListeners();
   }
 }
