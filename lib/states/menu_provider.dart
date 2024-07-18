@@ -1,13 +1,18 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:nacho_cafe/core/local_repository.dart';
 
 class Menu {
+  final String id;
   final String name;
   final int price;
   final String filename;
-  const Menu({required this.name, required this.price, required this.filename});
+  const Menu({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.filename,
+  });
 }
 
 enum MenuState {
@@ -36,59 +41,31 @@ class MenuProvider extends ChangeNotifier {
   List<Menu> _searchMenus = [];
   get searchMenus => _searchMenus;
 
+  List<Menu> _allMenus = [];
   List<Menu> _menus = [];
   List<Menu> get menus => _menus;
-
-  List<Menu> _allMenus = [];
 
   late MenuType _selectedMenuType;
   MenuType get menuType => _selectedMenuType;
 
-  MenuProvider() {
+  LocalRepository localRepository;
+
+  MenuProvider({
+    required this.localRepository,
+  }) {
     _selectedMenuType = MenuType.food;
-    initAllMenus();
+    loadAllMenus();
     reloadMenuJson();
   }
 
-  void initAllMenus() async {
-    const String foodUrl = "assets/foods.json";
-    const String drinkUrl = "assets/drinks.json";
+  void loadAllMenus() async {
+    _state = MenuState.idle;
+    notifyListeners();
 
-    String foodJson = await rootBundle.loadString(foodUrl);
-    String drinkJson = await rootBundle.loadString(drinkUrl);
+    _allMenus = await localRepository.getAllMenus();
 
-    List<dynamic> decodedFood = jsonDecode(foodJson);
-    List<dynamic> decodedDrink = jsonDecode(drinkJson);
-
-    List<Menu> result = [];
-    void load(List<dynamic> decoded) {
-      for (var item in decoded) {
-        if (item
-            case {
-              "name": String name,
-              "price": int price,
-              "filename": String filename,
-            }) {
-          Menu menu = Menu(
-            name: name,
-            price: price,
-            filename: filename,
-          );
-          result.add(menu);
-        } else {
-          throw "unhandled json: $item";
-        }
-      }
-    }
-
-    load(decodedFood);
-    load(decodedDrink);
-
-    result.sort((a, b) {
-      return a.name.compareTo(b.name);
-    });
-
-    _allMenus = result;
+    _state = MenuState.loaded;
+    notifyListeners();
   }
 
   void changeMenuType(MenuType menuType) {
@@ -109,37 +86,16 @@ class MenuProvider extends ChangeNotifier {
     _menus = [];
     notifyListeners();
 
-    late String menuUrl;
-    if (menuType == MenuType.food) {
-      menuUrl = "assets/foods.json";
-    } else if (menuType == MenuType.drink) {
-      menuUrl = "assets/drinks.json";
+    late List<Menu> menus;
+    if (_selectedMenuType == MenuType.food) {
+      menus = await localRepository.getFoods();
+    } else if (_selectedMenuType == MenuType.drink) {
+      menus = await localRepository.getDrinks();
     } else {
-      throw "Unhandled Menu Type: $menuType";
+      throw "Unhandled menu type: $_selectedMenuType";
     }
-
-    String json = await rootBundle.loadString(menuUrl);
-    List<dynamic> decoded = jsonDecode(json);
-
-    for (var item in decoded) {
-      if (item
-          case {
-            "name": String name,
-            "price": int price,
-            "filename": String filename,
-          }) {
-        Menu menu = Menu(
-          name: name,
-          price: price,
-          filename: filename,
-        );
-        menus.add(menu);
-      } else {
-        throw "unhandled json: $item";
-      }
-    }
-
     _menus = menus;
+
     _state = MenuState.loaded;
     notifyListeners();
   }
@@ -162,10 +118,10 @@ class MenuProvider extends ChangeNotifier {
     return picked;
   }
 
-  void search(String query) {
+  void search(String query) async {
     if (query == "") {
       _searchState = SearchState.idle;
-      _searchMenus = _allMenus;
+      _searchMenus = await localRepository.getAllMenus();
       notifyListeners();
       return;
     }

@@ -1,60 +1,72 @@
 [
   {
+    "id": "mie-goreng",
     "name": "Mie Goreng",
     "price": 13000,
     "filename": "mie-goreng.png"
   },
   {
+    "id": "pecel-lele",
     "name": "Pecel Lele",
     "price": 19000,
     "filename": "pecel-lele.png"
   },
   {
+    "id": "bakso",
     "name": "Bakso",
     "price": 21000,
     "filename": "bakso.png"
   },
   {
+    "id": "soto",
     "name": "Soto",
     "price": 24000,
     "filename": "soto.png"
   },
   {
+    "id": "nasi-goreng",
     "name": "Nasi Goreng",
     "price": 13000,
     "filename": "nasi-goreng.png"
   },
   {
+    "id": "sate-ayam",
     "name": "Sate Ayam",
     "price": 17000,
     "filename": "sate-ayam.png"
   },
   {
+    "id": "mie-sagu",
     "name": "Mie Sagu",
     "price": 19000,
     "filename": "mie-sagu.png"
   },
   {
+    "id": "laksa",
     "name": "Laksa",
     "price": 29000,
     "filename": "laksa.png"
   },
   {
+    "id": "mie-tiaw",
     "name": "Mie Tiaw",
     "price": 15000,
     "filename": "mie-tiaw.png"
   },
   {
+    "id": "chwee-kueh",
     "name": "Chwee Kueh",
     "price": 21000,
     "filename": "chwee-kueh.png"
   },
   {
+    "id": "mie-tarempa",
     "name": "Mie Tarempa",
     "price": 31000,
     "filename": "mie-tarempa.png"
   },
   {
+    "id": "bubur-ayam",
     "name": "Bubur Ayam",
     "price": 17000,
     "filename": "bubur-ayam.png"

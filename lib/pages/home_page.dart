@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nacho_cafe/pages/widgets/item_widget.dart';
+import 'package:nacho_cafe/states/cart_provider.dart';
 import 'package:nacho_cafe/states/menu_provider.dart';
 import 'package:nacho_cafe/utils/routes.dart';
 import 'package:provider/provider.dart';
@@ -53,11 +54,39 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(width: 12.0),
-          SvgPicture.asset(
-            "images/ic_cart.svg",
+          SizedBox(
             width: 28.0,
             height: 28.0,
-            colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+            child: Stack(
+              children: [
+                SvgPicture.asset(
+                  "images/ic_cart.svg",
+                  width: 28.0,
+                  height: 28.0,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                ),
+                Consumer<CartProvider>(
+                  builder: (context, value, child) {
+                    if (value.cart.isNotEmpty) {
+                      return Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 8.0,
+                          height: 8.0,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
           const SizedBox(width: 18.0),
         ],
