@@ -9,6 +9,7 @@ class CartItem {
 }
 
 abstract class CartInterface {
+  CartItem? getCartItem(String id);
   Future<Menu?> getCartItemDetail(String id);
   void addCartItem(String id, int count);
   void updateCartItemCount(String id, int count);
@@ -26,7 +27,18 @@ class CartProvider extends ChangeNotifier implements CartInterface {
   void addCartItem(String id, int count) {
     CartItem cartItem = CartItem(id, count);
     _cart.add(cartItem);
+    print("log: Added $count of ${cartItem.id}");
     notifyListeners();
+  }
+
+  @override
+  CartItem? getCartItem(String id) {
+    for (CartItem cartItem in _cart) {
+      if (cartItem.id == id) {
+        return cartItem;
+      }
+    }
+    return null;
   }
 
   @override
@@ -38,6 +50,7 @@ class CartProvider extends ChangeNotifier implements CartInterface {
   void updateCartItemCount(String id, int count) {
     for (CartItem cartItem in _cart) {
       if (cartItem.id == id) {
+        print("log: Updated ${cartItem.id} from ${cartItem.count} to $count");
         cartItem.count = count;
       }
     }

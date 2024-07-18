@@ -197,11 +197,9 @@ class _HasItem extends StatelessWidget {
           return ItemWidget(
             width: double.infinity,
             height: double.infinity,
-            name: menus[index].name,
+            menu: menus[index],
             nameFontSize: 16.0,
-            price: menus[index].price,
             priceFontSize: 14.0,
-            imageUrl: "images/${menus[index].filename}",
           );
         },
       ),

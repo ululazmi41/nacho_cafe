@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:nacho_cafe/pages/widgets/item_dialog.dart';
+import 'package:nacho_cafe/states/cart_provider.dart';
+import 'package:nacho_cafe/states/menu_provider.dart';
 import 'package:nacho_cafe/utils/helper.dart';
+import 'package:provider/provider.dart';
 
 class ItemWidget extends StatefulWidget {
   const ItemWidget({
     super.key,
     required this.width,
     required this.height,
-    required this.name,
+    required this.menu,
     required this.nameFontSize,
-    required this.price,
     required this.priceFontSize,
-    required this.imageUrl,
   });
 
   final double width;
   final double height;
-  final String name;
+  final Menu menu;
   final double nameFontSize;
-  final int price;
   final double priceFontSize;
-  final String imageUrl;
 
   @override
   State<ItemWidget> createState() => _ItemWidgetState();
@@ -54,11 +53,18 @@ class _ItemWidgetState extends State<ItemWidget> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        CartItem? cartItem = Provider.of<CartProvider>(context, listen: false)
+            .getCartItem(widget.menu.id);
+
+        if (cartItem != null) {
+          _itemCount = cartItem.count;
+        }
+
         showItemDialog(
           context,
-          name: widget.name,
-          price: widget.price,
-          imageUrl: widget.imageUrl,
+          isNotAdded: cartItem == null,
+          menu: widget.menu,
+          count: cartItem?.count ?? 1,
         );
       },
       child: Container(
@@ -67,7 +73,7 @@ class _ItemWidgetState extends State<ItemWidget> {
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(widget.imageUrl),
+            image: AssetImage("images/${widget.menu.filename}"),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(12.0),
@@ -97,14 +103,14 @@ class _ItemWidgetState extends State<ItemWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.name,
+                      widget.menu.name,
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.8),
                         fontSize: widget.nameFontSize,
                       ),
                     ),
                     Text(
-                      formatToRupiah(widget.price),
+                      formatToRupiah(widget.menu.price),
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.8),
                         fontSize: widget.priceFontSize,
@@ -122,13 +128,14 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   Future<void> showItemDialog(
     BuildContext context, {
-    required String name,
-    required int price,
-    required String imageUrl,
+    required Menu menu,
+    required bool isNotAdded,
+    String? id,
+    int? count,
   }) {
     return showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: SizedBox(
             width: 200.0,
@@ -137,7 +144,7 @@ class _ItemWidgetState extends State<ItemWidget> {
               borderRadius: BorderRadius.circular(8.0),
               child: FittedBox(
                 fit: BoxFit.cover,
-                child: Image.asset(imageUrl),
+                child: Image.asset("images/${widget.menu.filename}"),
               ),
             ),
           ),
@@ -148,18 +155,20 @@ class _ItemWidgetState extends State<ItemWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      name,
+                      widget.menu.name,
                       style: const TextStyle(fontSize: 14.0),
                     ),
                     Text(
-                      formatToRupiah(price),
+                      formatToRupiah(widget.menu.price),
                       style: const TextStyle(fontSize: 14.0),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8.0),
                 ItemDialog(
-                  price: price,
+                  price: widget.menu.price,
+                  id: id,
+                  count: count,
                   parentIncrease: increaseItemCount,
                   parentDecrease: decreaseItemCount,
                 ),
@@ -169,7 +178,7 @@ class _ItemWidgetState extends State<ItemWidget> {
           actions: <Widget>[
             OutlinedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(dialogContext).pop();
               },
               style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -183,7 +192,14 @@ class _ItemWidgetState extends State<ItemWidget> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                if (isNotAdded) {
+                  Provider.of<CartProvider>(context, listen: false)
+                      .addCartItem(menu.id, _itemCount);
+                } else {
+                  Provider.of<CartProvider>(context, listen: false)
+                      .updateCartItemCount(menu.id, _itemCount);
+                }
+                Navigator.of(dialogContext).pop();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -191,9 +207,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              child: const Text(
-                'Tambah',
-                style: TextStyle(
+              child: Text(
+                isNotAdded ? "Tambah" : "Ubah",
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),

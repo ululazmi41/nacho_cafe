@@ -332,11 +332,9 @@ class _ItemsWidgetState extends State<_ItemsWidget> {
                 return ItemWidget(
                   width: double.infinity,
                   height: double.infinity,
-                  name: value.menus[index].name,
+                  menu: value.menus[index],
                   nameFontSize: 16.0,
-                  price: value.menus[index].price,
                   priceFontSize: 14.0,
-                  imageUrl: "images/${value.menus[index].filename}",
                 );
               },
             ),
@@ -388,11 +386,9 @@ class _RecommendationWidgetState extends State<_RecommendationWidget> {
                   return ItemWidget(
                     width: MediaQuery.sizeOf(context).width / 3,
                     height: MediaQuery.sizeOf(context).width / 3,
-                    name: foods[index].name,
+                    menu: foods[index],
                     nameFontSize: 12.0,
-                    price: foods[index].price,
                     priceFontSize: 10.0,
-                    imageUrl: "images/${foods[index].filename}",
                   );
                 },
               ),

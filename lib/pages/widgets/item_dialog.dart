@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nacho_cafe/utils/helper.dart';
@@ -6,11 +5,15 @@ import 'package:nacho_cafe/utils/helper.dart';
 class ItemDialog extends StatefulWidget {
   const ItemDialog({
     super.key,
+    this.id,
+    this.count = 1,
     required this.price,
     required this.parentDecrease,
     required this.parentIncrease,
   });
 
+  final String? id;
+  final int? count;
   final int price;
   final Function parentIncrease;
   final Function parentDecrease;
@@ -20,7 +23,13 @@ class ItemDialog extends StatefulWidget {
 }
 
 class _ItemDialogState extends State<ItemDialog> {
-  int _itemCount = 1;
+  late int _itemCount;
+
+  @override
+  void initState() {
+    _itemCount = widget.count ?? 1;
+    super.initState();
+  }
 
   void increaseItemCount() {
     setState(() {
