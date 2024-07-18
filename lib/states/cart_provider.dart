@@ -4,14 +4,15 @@ import 'package:nacho_cafe/states/menu_provider.dart';
 
 class CartItem {
   final String id;
+  final Menu menu;
   int count;
-  CartItem(this.id, this.count);
+  CartItem(this.id, this.menu, this.count);
 }
 
 abstract class CartInterface {
   CartItem? getCartItem(String id);
   Future<Menu?> getCartItemDetail(String id);
-  void addCartItem(String id, int count);
+  void addCartItem(Menu menu, String id, int count);
   void updateCartItemCount(String id, int count);
   void deleteCartItem(String id);
 }
@@ -24,10 +25,9 @@ class CartProvider extends ChangeNotifier implements CartInterface {
   CartProvider({required this.localRepository});
 
   @override
-  void addCartItem(String id, int count) {
-    CartItem cartItem = CartItem(id, count);
+  void addCartItem(Menu menu, String id, int count) {
+    CartItem cartItem = CartItem(id, menu, count);
     _cart.add(cartItem);
-    print("log: Added $count of ${cartItem.id}");
     notifyListeners();
   }
 
@@ -50,10 +50,10 @@ class CartProvider extends ChangeNotifier implements CartInterface {
   void updateCartItemCount(String id, int count) {
     for (CartItem cartItem in _cart) {
       if (cartItem.id == id) {
-        print("log: Updated ${cartItem.id} from ${cartItem.count} to $count");
         cartItem.count = count;
       }
     }
+    notifyListeners();
   }
 
   @override
@@ -63,5 +63,6 @@ class CartProvider extends ChangeNotifier implements CartInterface {
         _cart.removeAt(i);
       }
     }
+    notifyListeners();
   }
 }

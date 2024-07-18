@@ -194,7 +194,7 @@ class _ItemWidgetState extends State<ItemWidget> {
               onPressed: () {
                 if (isNotAdded) {
                   Provider.of<CartProvider>(context, listen: false)
-                      .addCartItem(menu.id, _itemCount);
+                      .addCartItem(menu, menu.id, _itemCount);
                 } else {
                   Provider.of<CartProvider>(context, listen: false)
                       .updateCartItemCount(menu.id, _itemCount);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nacho_cafe/pages/widgets/item_widget.dart';
 import 'package:nacho_cafe/states/menu_provider.dart';
+import 'package:nacho_cafe/utils/routes.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
@@ -63,11 +64,17 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             const SizedBox(width: 12.0),
-            SvgPicture.asset(
-              "images/ic_cart.svg",
-              width: 28.0,
-              height: 28.0,
-              colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, cartPageRoute);
+              },
+              child: SvgPicture.asset(
+                "images/ic_cart.svg",
+                width: 28.0,
+                height: 28.0,
+                colorFilter:
+                    const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+              ),
             ),
             const SizedBox(width: 18.0),
           ],

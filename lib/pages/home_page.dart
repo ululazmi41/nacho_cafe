@@ -54,38 +54,43 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(width: 12.0),
-          SizedBox(
-            width: 28.0,
-            height: 28.0,
-            child: Stack(
-              children: [
-                SvgPicture.asset(
-                  "images/ic_cart.svg",
-                  width: 28.0,
-                  height: 28.0,
-                  colorFilter:
-                      const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
-                ),
-                Consumer<CartProvider>(
-                  builder: (context, value, child) {
-                    if (value.cart.isNotEmpty) {
-                      return Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          width: 8.0,
-                          height: 8.0,
-                          decoration: const BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, cartPageRoute);
+            },
+            child: SizedBox(
+              width: 28.0,
+              height: 28.0,
+              child: Stack(
+                children: [
+                  SvgPicture.asset(
+                    "images/ic_cart.svg",
+                    width: 28.0,
+                    height: 28.0,
+                    colorFilter:
+                        const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                  ),
+                  Consumer<CartProvider>(
+                    builder: (context, value, child) {
+                      if (value.cart.isNotEmpty) {
+                        return Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            width: 8.0,
+                            height: 8.0,
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-              ],
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(width: 18.0),
@@ -290,6 +295,61 @@ class _RecommendationWidget extends StatefulWidget {
   State<_RecommendationWidget> createState() => _RecommendationWidgetState();
 }
 
+class _RecommendationWidgetState extends State<_RecommendationWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<MenuProvider>(
+      builder: (context, value, child) {
+        if (value.state == MenuState.idle) {
+          return SizedBox(
+            height: MediaQuery.sizeOf(context).width / 3,
+            child: Expanded(
+              child: ListView.separated(
+                itemCount: 5,
+                scrollDirection: Axis.horizontal,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 12.0);
+                },
+                itemBuilder: (context, index) {
+                  return ItemPlaceholder(
+                    width: MediaQuery.sizeOf(context).width / 3,
+                    height: MediaQuery.sizeOf(context).width / 3,
+                  );
+                },
+              ),
+            ),
+          );
+        } else if (value.state == MenuState.loaded) {
+          List<Menu> foods = value.getRandomMenu(5);
+          return SizedBox(
+            height: MediaQuery.sizeOf(context).width / 3,
+            child: Expanded(
+              child: ListView.separated(
+                itemCount: 5,
+                scrollDirection: Axis.horizontal,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 12.0);
+                },
+                itemBuilder: (context, index) {
+                  return ItemWidget(
+                    width: MediaQuery.sizeOf(context).width / 3,
+                    height: MediaQuery.sizeOf(context).width / 3,
+                    menu: foods[index],
+                    nameFontSize: 12.0,
+                    priceFontSize: 10.0,
+                  );
+                },
+              ),
+            ),
+          );
+        } else {
+          return const Text("Unreachable code");
+        }
+      },
+    );
+  }
+}
+
 class _ItemsWidget extends StatefulWidget {
   const _ItemsWidget();
 
@@ -337,61 +397,6 @@ class _ItemsWidgetState extends State<_ItemsWidget> {
                   priceFontSize: 14.0,
                 );
               },
-            ),
-          );
-        } else {
-          return const Text("Unreachable code");
-        }
-      },
-    );
-  }
-}
-
-class _RecommendationWidgetState extends State<_RecommendationWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<MenuProvider>(
-      builder: (context, value, child) {
-        if (value.state == MenuState.idle) {
-          return SizedBox(
-            height: MediaQuery.sizeOf(context).width / 3,
-            child: Expanded(
-              child: ListView.separated(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12.0);
-                },
-                itemBuilder: (context, index) {
-                  return ItemPlaceholder(
-                    width: MediaQuery.sizeOf(context).width / 3,
-                    height: MediaQuery.sizeOf(context).width / 3,
-                  );
-                },
-              ),
-            ),
-          );
-        } else if (value.state == MenuState.loaded) {
-          List<Menu> foods = value.getRandomMenu(5);
-          return SizedBox(
-            height: MediaQuery.sizeOf(context).width / 3,
-            child: Expanded(
-              child: ListView.separated(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12.0);
-                },
-                itemBuilder: (context, index) {
-                  return ItemWidget(
-                    width: MediaQuery.sizeOf(context).width / 3,
-                    height: MediaQuery.sizeOf(context).width / 3,
-                    menu: foods[index],
-                    nameFontSize: 12.0,
-                    priceFontSize: 10.0,
-                  );
-                },
-              ),
             ),
           );
         } else {
