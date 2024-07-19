@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nacho_cafe/domain/enum/menu_type_enum.dart';
+import 'package:nacho_cafe/states/menu_provider.dart';
 import 'package:nacho_cafe/utils/routes.dart';
+import 'package:provider/provider.dart';
 
 class FrontPage extends StatefulWidget {
   const FrontPage({super.key});
@@ -55,12 +58,14 @@ class _FrontPageState extends State<FrontPage> {
             OptionType(
               iconUrl: "images/ic_food.svg",
               label: "Makanan",
+              menuType: MenuType.food,
               pageRoute: homePageRoute,
             ),
             SizedBox(height: 16.0),
             OptionType(
               iconUrl: "images/ic_drink.svg",
               label: "Minuman",
+              menuType: MenuType.drink,
               pageRoute: homePageRoute,
             ),
             SizedBox(height: 40.0),
@@ -76,17 +81,21 @@ class OptionType extends StatelessWidget {
     super.key,
     required this.label,
     required this.iconUrl,
+    required this.menuType,
     required this.pageRoute,
   });
 
   final String label;
   final String iconUrl;
   final String pageRoute;
+  final MenuType menuType;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        Provider.of<MenuProvider>(context, listen: false)
+            .changeMenuType(menuType);
         Navigator.pushNamed(context, pageRoute);
       },
       child: Container(

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nacho_cafe/pages/widgets/cart_dialog_state.dart';
 import 'package:nacho_cafe/states/cart_provider.dart';
 import 'package:nacho_cafe/utils/helper.dart';
+import 'package:nacho_cafe/utils/routes.dart';
 import 'package:provider/provider.dart';
 
 enum PaymentType {
@@ -313,8 +314,12 @@ class _CartPageState extends State<CartPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                // TODO: continue here...
                 Navigator.of(dialogContext).pop();
+                Navigator.of(context).pushReplacementNamed(statusPageRoute);
+                Provider.of<CartProvider>(
+                  context,
+                  listen: false,
+                ).reset();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -554,6 +559,7 @@ class _StateCartItemWidget extends State<CartItemWidget> {
               onPressed: () {
                 Provider.of<CartProvider>(context, listen: false)
                     .updateCartItemCount(cartItem.menu.id, _itemCount);
+                recountTotal();
                 Navigator.of(dialogContext).pop();
               },
               style: ElevatedButton.styleFrom(

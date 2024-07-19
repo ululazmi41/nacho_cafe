@@ -4,6 +4,7 @@ import 'package:nacho_cafe/pages/front_page.dart';
 import 'package:nacho_cafe/pages/home_page.dart';
 import 'package:nacho_cafe/pages/search_page.dart';
 import 'package:nacho_cafe/pages/splash_screen.dart';
+import 'package:nacho_cafe/pages/status_page.dart';
 
 Route animatedPageBuilder(Widget page) {
   return PageRouteBuilder(
@@ -32,6 +33,7 @@ const frontPageRoute = "front";
 const homePageRoute = "home";
 const searchPageRoute = "search";
 const cartPageRoute = "cart";
+const statusPageRoute = "status";
 
 Route routes(RouteSettings settings) {
   switch (settings.name) {
@@ -45,6 +47,8 @@ Route routes(RouteSettings settings) {
       return animatedPageBuilder(const SearchPage());
     case cartPageRoute:
       return animatedPageBuilder(const CartPage());
+    case statusPageRoute:
+      return animatedPageBuilder(const StatusPage());
     default:
       return animatedPageBuilder(
           const Placeholder(child: Center(child: Text("Unimplemented"))));

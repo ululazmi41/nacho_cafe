@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nacho_cafe/domain/enum/menu_type_enum.dart';
 import 'package:nacho_cafe/pages/widgets/item_widget.dart';
 import 'package:nacho_cafe/states/cart_provider.dart';
 import 'package:nacho_cafe/states/menu_provider.dart';
@@ -96,8 +97,8 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(width: 18.0),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
           horizontal: 12.0,
           vertical: 8.0,
         ),
@@ -105,8 +106,8 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _TypeButtonsWidget(),
-              Align(
+              const _TypeButtonsWidget(),
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Rekomendasi',
@@ -117,21 +118,25 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 8.0),
-              _RecommendationWidget(),
-              SizedBox(height: 8.0),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Rekomendasi',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              const SizedBox(height: 8.0),
+              const _RecommendationWidget(),
+              const SizedBox(height: 8.0),
+              Consumer<MenuProvider>(
+                builder: (context, value, child) {
+                  return Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      value.menuType == MenuType.food ? "Makanan" : "Minuman",
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
               ),
-              _ItemsWidget(),
+              const _ItemsWidget(),
             ],
           ),
         ),

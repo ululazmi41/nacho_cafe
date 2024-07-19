@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:nacho_cafe/core/local_repository.dart';
+import 'package:nacho_cafe/domain/enum/menu_type_enum.dart';
 
 class Menu {
   final String id;
@@ -24,11 +25,6 @@ enum SearchState {
   idle,
   hasItem,
   noItem,
-}
-
-enum MenuType {
-  food,
-  drink,
 }
 
 class MenuProvider extends ChangeNotifier {

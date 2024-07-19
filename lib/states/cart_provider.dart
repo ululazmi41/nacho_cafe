@@ -15,6 +15,7 @@ abstract class CartInterface {
   void addCartItem(Menu menu, String id, int count);
   void updateCartItemCount(String id, int count);
   void deleteCartItem(String id);
+  void reset();
 }
 
 class CartProvider extends ChangeNotifier implements CartInterface {
@@ -62,6 +63,14 @@ class CartProvider extends ChangeNotifier implements CartInterface {
       if (_cart[i].id == id) {
         _cart.removeAt(i);
       }
+    }
+    notifyListeners();
+  }
+
+  @override
+  void reset() {
+    while (_cart.isNotEmpty) {
+      _cart.removeLast();
     }
     notifyListeners();
   }
