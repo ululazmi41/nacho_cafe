@@ -1,16 +1,25 @@
-# nacho_cafe
+# Nacho Cafe
 
-A new Flutter project.
+Read in: [Bahasa Indonesia](README_ID.md)
 
-## Getting Started
+The purpose of this Rep1ository is to create a simple Food and Drink ordering app where users can browse, search, add to cart, and process payment. It uses the Provider package for state management.
 
-This project is a starting point for a Flutter application.
+Technologies: **Flutter**
 
-A few resources to get you started if this is your first Flutter project:
+Dependencies: **provider**, **flutter_svg**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- List of available foods and drinks.
+- Add food or drink to cart.
+- Search foods and drinks.
+- Place orders.
+
+## Setup
+
+To get started with this project, follow these steps:
+
+- Clone the repository.
+- Open terminal / command prompt.
+- Navigate to the project repository.
+- Run `flutter pub get` to install the dependencies.

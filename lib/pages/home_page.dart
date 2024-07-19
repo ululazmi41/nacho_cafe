@@ -308,43 +308,39 @@ class _RecommendationWidgetState extends State<_RecommendationWidget> {
         if (value.state == MenuState.idle) {
           return SizedBox(
             height: MediaQuery.sizeOf(context).width / 3,
-            child: Expanded(
-              child: ListView.separated(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12.0);
-                },
-                itemBuilder: (context, index) {
-                  return ItemPlaceholder(
-                    width: MediaQuery.sizeOf(context).width / 3,
-                    height: MediaQuery.sizeOf(context).width / 3,
-                  );
-                },
-              ),
+            child: ListView.separated(
+              itemCount: 5,
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) {
+                return const SizedBox(width: 12.0);
+              },
+              itemBuilder: (context, index) {
+                return ItemPlaceholder(
+                  width: MediaQuery.sizeOf(context).width / 3,
+                  height: MediaQuery.sizeOf(context).width / 3,
+                );
+              },
             ),
           );
         } else if (value.state == MenuState.loaded) {
           List<Menu> foods = value.getRandomMenu(5);
           return SizedBox(
             height: MediaQuery.sizeOf(context).width / 3,
-            child: Expanded(
-              child: ListView.separated(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12.0);
-                },
-                itemBuilder: (context, index) {
-                  return ItemWidget(
-                    width: MediaQuery.sizeOf(context).width / 3,
-                    height: MediaQuery.sizeOf(context).width / 3,
-                    menu: foods[index],
-                    nameFontSize: 12.0,
-                    priceFontSize: 10.0,
-                  );
-                },
-              ),
+            child: ListView.separated(
+              itemCount: 5,
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) {
+                return const SizedBox(width: 12.0);
+              },
+              itemBuilder: (context, index) {
+                return ItemWidget(
+                  width: MediaQuery.sizeOf(context).width / 3,
+                  height: MediaQuery.sizeOf(context).width / 3,
+                  menu: foods[index],
+                  nameFontSize: 12.0,
+                  priceFontSize: 10.0,
+                );
+              },
             ),
           );
         } else {
