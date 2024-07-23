@@ -6,6 +6,11 @@ Teknologi: **Flutter**
 
 Dependensi: **provider**, **flutter_svg**
 
+## Screenshots
+
+<img src="screenshots/Screenshot_1.jpg" height="480px">
+<img src="screenshots/Screenshot_2.jpg" height="480px">
+
 ## Fitur
 
 - Menyediakan berbagai pilihan makanan dan minuman.
