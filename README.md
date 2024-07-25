@@ -10,8 +10,8 @@ Dependencies: **provider**, **flutter_svg**
 
 ## Screenshots
 
-<img src="screenshots/Screenshot_1.jpg" height="480px">
-<img src="screenshots/Screenshot_2.jpg" height="480px">
+<img src="Screenshots/Screenshot_1.jpg" height="480px">
+<img src="Screenshots/Screenshot_2.jpg" height="480px">
 
 ## Features
 
