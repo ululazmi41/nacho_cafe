@@ -2,7 +2,7 @@
 
 Read in: [Bahasa Indonesia](README_ID.md)
 
-The purpose of this Rep1ository is to create a simple Food and Drink ordering app where users can browse, search, add to cart, and process payment. It uses the Provider package for state management.
+The purpose of this Repository is to create a simple Food and Drink ordering app where users can browse, search, add to cart, and process payment. It uses the Provider package for state management.
 
 Technologies: **Flutter**
 
